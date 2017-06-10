@@ -1,0 +1,21 @@
+#!/usr/bin/env php
+<?php
+//@codeCoverageIgnoreStart
+require dirname(__DIR__) . "/vendor/autoload.php";
+use TeamNeusta\PushMe\Console\Application;
+$app = new Application('PushMe', '@package_version@');
+$app->add(
+        new \TeamNeusta\PushMe\Command\InitCommand()
+);
+$app->add(
+    new \TeamNeusta\PushMe\Command\PushCommand(
+        new \TeamNeusta\PushMe\Services\CommitService(),
+        new \TeamNeusta\PushMe\Services\PushService(
+                new \TeamNeusta\PushMe\Services\ConfigService()
+        ),
+        new \TeamNeusta\PushMe\Services\ConfigService(),
+        new \TeamNeusta\PushMe\Services\GitService()
+    )
+);
+$app->run();
+//@codeCoverageIgnoreEnd
